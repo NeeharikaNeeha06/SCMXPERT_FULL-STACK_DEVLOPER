@@ -1,0 +1,16 @@
+#Building dockerImage for consumer using python latest file
+FROM python:latest
+WORKDIR /SCMXPert/app
+
+# COPY ./requirements.txt .
+COPY ./requirements.txt .
+COPY . .
+
+#Installing required libraries specified in requirements.txt file
+RUN pip install -r requirements.txt
+
+#Run on 8000 port
+EXPOSE 8000
+
+#Execute main.py file with uvicorn server
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

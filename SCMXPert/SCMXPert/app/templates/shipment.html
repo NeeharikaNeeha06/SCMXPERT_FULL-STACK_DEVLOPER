@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      
+        <title>Shipment</title>
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+      
+      
+      
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+      
+        <!-- Vendor CSS Files -->
+        <link href="../static/vendor/aos/aos.css" rel="stylesheet">
+        <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+        <link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+        <link href="../static/vendor/remixicon/remixicon.css" rel="stylesheet">
+        <link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+      
+        <!-- Template Main CSS File -->
+        <link href="../static/css/style.css" rel="stylesheet">
+        <link href="../static/css/shipment.css" rel="stylesheet">
+    </head>
+
+<body>
+  
+ <!-- ======= Header ======= -->
+  <header id="header"  >
+    <div class="container d-flex align-items-center">
+      <!-- logo image -->
+      <a href="/" class="logo me-auto"><img src="../static/img/logo2.jpg" style="max-height: 80px;" alt="" class="img-fluid" ></a>
+      <h1 class="logo me-auto" ><a href="/" style="margin-left: -19rem;">SCMXPERT LITE</a></h1>
+      
+
+      <nav id="navbar" class="navbar">
+        <ul style="margin-left: 10%;">
+          <li><a class="nav-link scrollto " href="/#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="/#clients">Partners</a></li>
+          <li><a class="nav-link scrollto" href="/#about">About</a></li>
+          <li><a class="nav-link scrollto" href="/#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="/#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="/dashboard">Dashboard</a></li>
+          <li><a class="nav-link scrollto" href="/logout">Logout</a></li>
+        </ul>
+        
+      </nav>
+      <!-- .navbar -->
+
+    </div>
+  </header>
+  <!-- End Header -->
+    <div class="box-form" style="margin-top: 1%; width: 36%;">
+        <div class="right">
+          <h5 style="color:#3d507d;">New Shipment</h5>
+          {% if ShipmentCreated %}
+          <span style="color: red;margin-left: 31%;font-size: medium;font-family: inherit;">{{ShipmentCreated}}</span>
+          {%  endif %}
+          {% if Invoice %}
+          <span style="color: red;margin-left: 34%;font-size: medium;font-family: inherit;">{{Invoice}}</span>
+          {%  endif %}
+          <form method="POST" action="/shipment">
+           <div class="inputs">
+             <div class="row">
+               <div class="column1">
+                 <input
+                  type="text"
+                  id="invNum"
+                  name="invoice"
+                  autocomplete="off"
+                  placeholder="Shipment/Invoice Number"
+                  required
+                 />
+                </div>
+                <div class="column2"></div>
+                <div class="column3">
+                 <input
+                  type="number"
+                  id="poNum"
+                  name="ponum"
+                  placeholder="PO Number"
+                  required
+                 />
+                </div>
+              </div>
+            <div class="row">
+              <div class="column1">
+                <input
+                  type="number"
+                  id="conNum"
+                  name="containernumber"
+                  placeholder="Container Number"
+                  required
+                />
+              </div>
+              <div class="column2"></div>
+              <div class="column3">
+                <input
+                  type="number"
+                  id="delNum"
+                  name="deliverynumber"
+                  placeholder="Delivery Number"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="column1">
+                <input
+                type="text"
+                  id="expdeldate"
+                  name="deliverydate"
+                  placeholder="Expected Delivery Date"
+                  onfocus="(this.type='date')"
+                  onblur="(this.type='text')"
+                  style="
+                    width: 110%;
+                    padding: 10px;
+                    margin-top: 22px;
+                    font-size: 16px;
+                    border: none;
+                    outline: none;
+                    border-bottom: 2px solid #b0b3b9;
+                  "
+                  
+                  required
+                />
+              </div>
+              <div class="column2"></div>
+              <div class="column3">
+                <input
+                  type="number"
+                  id="ndcNum"
+                  name="ndcnumber"
+                  placeholder="NDC Number"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="column1">
+                <select
+                  id="routeDetails"
+                  required
+                  name="route"
+                  style="
+                    width: 110%;
+                    padding: 10px;
+                    margin-top: 25px;
+                    font-size: 16px;
+                    border: none;
+                    outline: none;
+                    border-bottom: 2px solid #b0b3b9;
+                  "
+                  th:field="*{route}"
+                >
+                  <option value=""  disabled selected>Select Route Details</option>
+                  <option value="New Jersey - Dubai">New Jersey - Dubai</option>
+                  <option value="Dubai - Bengaluru">Dubai - Bengaluru</option>
+                  <option value="Bengaluru - Tirupati">Bengaluru - Tirupati</option>
+                  <option value="Tirupati - Chennai">Tirupati - Chennai</option>
+                </select>
+              </div>
+              <div class="column2"></div>
+              <div class="column3">
+                <input
+                  type="number"
+                  id="batId"
+                  name="batch"
+                  placeholder="Batch ID Number"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="column1">
+                <select
+                  id="goods"
+                  required
+                  name="goods"
+                  style="
+                    width: 110%;
+                    padding: 10px;
+                    margin-top: 25px;
+                    font-size: 16px;
+                    border: none;
+                    outline: none;
+                    border-bottom: 2px solid #b0b3b9;
+                  "
+                  th:field="*{goods}"
+                >
+                  <option value="" disabled selected>Select Goods Type</option>
+                  <option value="Pharmaceuticals and Healthcare">Pharmaceuticals and Healthcare</option>
+                  <option value="Food and Perishables">Food and Perishables</option>
+                  <option value="Consumer and Industrial Products">Consumer and Industrial Products</option>
+                  <option value="Shipping and Transportation">Shipping and Transportation</option>
+                </select>
+              </div>
+              <div class="column2"></div>
+              <div class="column3">
+                <input
+                  type="number"
+                  id="serGoods"
+                  name="serialnumber"
+                  placeholder="Serial number of goods"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="column1">
+                <select
+                  id="device"
+                  required
+                  name="device"
+                  style="
+                    width: 110%;
+                    padding: 10px;
+                    margin-top: 25px;
+                    font-size: 16px;
+                    border: none;
+                    outline: none;
+                    border-bottom: 2px solid #b0b3b9;
+                    /* color: #b0b3b9; */
+                  "
+                >
+                  <option value="" disabled selected>Select Device</option>
+                  <option value="Mac">Mac</option>
+                  <option value="Smart Phone">Smart Phone</option>
+                  <option value="Air Tag">Air Tag</option>
+                  <option value="Desktop">Desktop</option>
+                </select>
+              </div>
+              <div class="column2"></div>
+              <div class="column3">
+                <textarea
+                  type="text"
+                  id="desc"
+                  required
+                  name="description"
+                  onkeypress="return validate(event)" 
+                  style="
+                    width: 110%;
+                    padding: 0 6px;
+                    margin-top: 20px;
+                    font-size: 16px;
+                    border: none;
+                    outline: none;
+                    border-bottom: 2px solid #b0b3b9;
+                  "
+                  placeholder="Shipment Description"
+                ></textarea>
+              </div>
+            </div>
+           </div>
+          
+  
+          <div  class="row">
+            <div style="width:70%;padding: 5px;display: flex;justify-content: space-between;margin-left: 15%;height: 25%";>
+              
+              <input id="createShipment" type="submit" value="Create Shipment"  
+              style="color: #fff;
+              font-size: 16px;
+              padding: 12px 25px;
+              border-radius: 50px;
+              display: inline-block;
+              border: 0;
+              outline: 0;
+              margin-left: -50px;
+              /* box-shadow: 0px 4px 20px 0px #3e5c7d; */
+              background-image: linear-gradient(135deg, #3e5c7d 10%, #3e5c7d 100%);"
+              >
+              
+              <input id="cancelShipment" type="reset" value="Cancel Shipment"  
+              style="color: #fff;
+              font-size: 16px;
+              padding: 12px 25px;
+              border-radius: 50px;
+              display: inline-block;
+              border: 0;
+              outline: 0;
+              margin-left: 120px;
+              /* box-shadow: 0px 4px 20px 0px #3e5c7d; */
+              background-image: linear-gradient(135deg, #3e5c7d 10%, #3e5c7d 100%);"
+              >
+             
+
+            </div>
+          </div>
+          </form>
+          <script>
+            function validate(event) {
+              var key = event.which || event.keyCode || 0;
+              // <!------------ASCII Values  32 = Space , 40 = ( , 41= ), 46=(.)------------->
+              return ((key >= 65 && key <= 90) || 
+                      (key >= 97 && key <= 122) || (key==32 || key==40 || key==41 || key==46) || (key>= 48 && key <= 57))
+            }
+          </script>
+          <script>
+            var today = new Date().toISOString().substr(0, 10);
+            document.getElementById("expdeldate").setAttribute("min", today);
+          </script>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+ <!-- ======= Footer ======= -->
+  <footer id="footer" style="position: fixed;bottom: 0;width:100%;height:100px;">
+    <div class="container footer-bottom clearfix">
+      <div class="copyright" style="font-size: large;">
+        &copy; Copyright <strong><a href="https://www.scmxpert.com/#" target="_blank">SCMXPERT</a></strong> All Rights Reserved
+      </div>
+      <div class="credits" style="font-size: large;">
+        Designed by <a href="https://www.exafluence.com/" target="_blank">Exafluence Inc.</a>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+
+</body>
+</html>
