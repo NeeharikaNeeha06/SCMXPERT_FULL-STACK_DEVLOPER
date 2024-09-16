@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+	<title>ForgetPassword</title>
+	<meta content="" name="description">
+	<meta content="" name="keywords">
+
+	<!-- Google Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+		rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+	<!-- Vendor CSS Files -->
+	<link href="../static/vendor/aos/aos.css" rel="stylesheet">
+	<link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+	<link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+	<link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+	<link href="../static/vendor/remixicon/remixicon.css" rel="stylesheet">
+	<link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+	<!-- Template Main CSS File -->
+	<link href="../static/css/style.css" rel="stylesheet">
+	<link href="../static/css/login.css" rel="stylesheet">
+	<!--Google Recaptcha-->
+	<!-- <script src="https://www.google.com/recaptcha/api.js" async defer></script> -->
+</head>
+
+<body onload="createCaptcha()">
+	<!-- ======= Header ======= -->
+	<header id="header" class="fixed-top ">
+		<div class="container d-flex align-items-center">
+			<!-- logo image -->
+			<a href="/" class="logo me-auto"><img src="../static/img/logo2.jpg" style="max-height: 80px;" alt="" class="img-fluid"></a>
+			<!--Title-->
+			<h1 class="logo me-auto" style="margin-left: -18rem;"><a href="/">SCMXPERT LITE</a></h1>
+			<!-- start navbar  -->
+			<nav id="navbar" class="navbar">
+				<ul style="margin-left: 10%;">
+					<li><a class="nav-link scrollto" href="/#home">Home</a></li>
+					<li><a class="nav-link scrollto" href="/#clients">Partners</a></li>
+					<li><a class="nav-link scrollto" href="/#about">About</a></li>
+					<li><a class="nav-link scrollto" href="/#services">Services</a></li>
+					<li><a class="nav-link scrollto" href="/#team">Team</a></li>
+					<li><a class="nav-link scrollto" href="/login">Login</a></li>
+				</ul>
+			</nav>
+			<!-- End navbar -->
+
+		</div>
+	</header>
+	<!-- End Header -->
+	<!--====Login Page=====-->
+	<div class="login" style="margin-top: -14%;">
+
+		<form method="post" action="/forget"  onsubmit="return validateCaptcha()">
+			<h1>Reset Password</h1>
+            {% if NotRegisted  %}
+            <span style="margin-left: 22%;color: red; font-size: medium;font-family: inherit;">{{NotRegisted}}</span>
+			{% endif %}
+			{% if PasswordChanged  %}
+            <span style="margin-left: 10%;color: red; font-size: medium;font-family: inherit;">{{PasswordChanged}}</span>
+			{% endif %}
+            <input type="email" style="top:20px;position:relative;background-color: rgb(255 255 255 / 68%);color: black;font-size: 15px;letter-spacing: 0.6px;" id="email" name="email" placeholder="email@domain.com" required="required" autocomplete="off" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+			<input type="password" style="top:20px;position:relative;background-color: rgb(255 255 255 / 68%);color: black;font-size: 15px;letter-spacing: 0.6px;" id="password" class="password" name="password" placeholder="New Password" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters" />
+			<span style="margin-left: 16rem;position: relative;color: #394f77;top: -22px; font-size: 14px;font-family: fangsong;" class="show">SHOW</span>
+			<span id="message" style="color: red;margin-left: 2.5rem;font-size: medium;font-family: inherit;letter-spacing: 0.5px;position:relative;top: -7px;"></span>
+            <input type="password" id="cnfpassword" name="cnfpassword" placeholder="Confirm Password" onkeyup="check();" onpaste="return false;" required="required"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" style="top:-2px;position:relative;background-color: rgb(255 255 255 / 68%);color: black;font-size: 15px;letter-spacing: 0.6px;"/>
+			<!-- <div class="g-recaptcha" data-sitekey="6LdvN5QlAAAAANn3iXyu--J1G0XBTfa6bf-Vk0UY" data-callback="enablesubmit"></div> -->
+			<div style="text-align: center;" class="">
+                <div>
+				  <div style="display: flex;align-items: center;">
+                  <div id="captcha" style="background-color: rgb(255 255 255 / 68%);   text-align: center; width: 90%;margin-top: 0%;height: 2.5rem;"></div>
+				  <!--Captcha Regeneration-->
+                  <button id="refreshbtn" onclick="createCaptcha()" ><i class="fa fa-refresh" style="margin-top: 1%;margin-left: 0rem;position: relative;top: 0px;background-color: rgb(255 255 255 / 68%);"></i></button>
+				  </div>
+                  <input type="text" placeholder=" Enter Captcha" id="cpatchaTextBox" onpaste="return false;" style="margin-top:4%;background-color: rgb(255 255 255 / 68%);color: black;font-size: 15px;letter-spacing: 0.6px;" required autocomplete="off">
+                  <p class="captchaError" id="captchaError" style="color:red;"></p>
+                </div>
+            </div>
+			<div class="section" style="margin-top: 1rem;">
+				<input type="submit" id="validate_login" class="btn btn-primary btn-block btn-large" style="background-color: #4a77d4;"  value="Register"/>
+			  </div>
+			<!-- <button type="submit" id="register" class="btn btn-primary btn-block btn-large" style="margin-top: 2.5%;"  onclick="submit()" disabled>Submit</button> -->
+			<div class="register" style="color: white; margin-top: 1%; text-align: center;">After Restting Password
+				<a href="/login">Login</a>
+		   </div>
+		</form>
+	</div>
+    <script>
+        function check() {
+          var pw1 = document.getElementById("password").value;
+          var pw2 = document.getElementById("cnfpassword").value;
+          if (pw1 == pw2) {
+            document.getElementById("message").innerHTML ="";
+          } 
+          else {
+            document.getElementById("message").innerHTML ="Passwords are not same";
+          }
+        }
+    </script>
+	<script>
+		function enablesubmit() {
+			document.getElementById("register").disabled = false;
+		}
+		const pass_field = document.querySelector(".password");
+		const showBtn = document.querySelector(".show");
+			showBtn.addEventListener("click", function () {
+				if (pass_field.type === "password") {
+					pass_field.type = "text";
+					showBtn.textContent = "HIDE";
+					showBtn.style.color = "#394f77"; 
+			} else {
+					pass_field.type = "password";
+					showBtn.textContent = "SHOW";
+					showBtn.style.color = "#394f77";
+				}
+			});
+	</script>
+	<script>
+		let refbtn = document.getElementById("refreshbtn")
+        var code;
+        function createCaptcha() {
+            document.getElementById('captcha').innerHTML = "";
+            var charsArray =
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#";
+            var lengthOtp = 6;
+            var captcha = [];
+            for (var i = 0; i < lengthOtp; i++) {
+                var index = Math.floor(Math.random() * charsArray.length + 1);
+                if (captcha.indexOf(charsArray[index]) == -1)
+                    captcha.push(charsArray[index]);
+                else i--;
+            }
+            var canv = document.createElement("canvas");
+            canv.id = "captcha";
+            canv.width = 100;
+            canv.height = 50;
+            var ctx = canv.getContext("2d");
+            ctx.font = "25px Georgia";
+            ctx.strokeText(captcha.join(""), 0, 30);
+
+            code = captcha.join("");
+            document.getElementById("captcha").appendChild(canv);
+        }
+        function validateCaptcha() {
+            var capt = document.getElementById("cpatchaTextBox").value;
+            if (capt != code) {
+                document.getElementById("captchaError").innerHTML = 'Invalid captcha';
+				return false;
+            }
+            return true;
+
+        }
+	</script>
+
+	<!--End Login page-->
+
+
+	<!-- ======= Footer ======= -->
+	<footer id="footer" style="margin-top: 42%;position: fixed;bottom: 0;width: 100%;">
+		<div class="container footer-bottom clearfix">
+			<div class="copyright" style="font-size: large;">
+				&copy; Copyright <strong><a href="https://www.scmxpert.com/#" target="_blank">SCMXPERT</a></strong> All Rights Reserved
+			</div>
+			<div class="credits" style="font-size: large;">
+				Designed by <a href="https://www.exafluence.com/" target="_blank">Exafluence Inc.</a>
+			</div>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+
+
+</body>
+
+</html>

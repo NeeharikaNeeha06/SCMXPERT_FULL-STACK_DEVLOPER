@@ -1,0 +1,14 @@
+#Building dockerImage for producer using python latest file
+FROM python:latest
+# RUN mkdir /producer
+WORKDIR /producer
+
+# COPY ./requirements.txt .
+COPY ./requirements.txt .
+COPY . .
+
+#Installing required libraries specified in requirements.txt file
+RUN pip install -r requirements.txt
+
+#Execute producer.py file in python mode
+CMD ["python", "producer.py"]

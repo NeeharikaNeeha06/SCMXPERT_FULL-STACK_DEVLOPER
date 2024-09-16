@@ -1,0 +1,17 @@
+#Building dockerImage for socker using python latest file
+FROM python:latest
+# RUN mkdir /socket
+WORKDIR /socket
+
+# COPY ./requirements.txt .
+COPY ./requirements.txt .
+COPY . .
+
+#Installing required libraries specified in requirements.txt file
+RUN pip install -r requirements.txt
+
+#Run on 12345 port
+EXPOSE 12345
+
+#Execute server.py file in python mode
+CMD ["python", "server.py"]
